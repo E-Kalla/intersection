@@ -1,0 +1,133 @@
+#!/usr/bin/env python3
+
+import sys
+import math
+
+def my_print_intro():
+    print ("USAGE\n    ./104intersection opt xp yp zp xv yv zv p\n")
+    print ("DESCRIPTION\n    opt             surface option: 1 for a sphere, 2 for a cylinder, 3 for a cone")
+    print ("    (xp, yp, zp)    coordinates of a point by which the light ray passes through\n    (xv, yv, zv)    coordinates of a vector parallel to the light ray\n    p               parameter: radius of the sphere, radius of the cylinder, or\n                    angle formed by the cone and the Z-axis")
+    
+def intersection(opt, xp, yp, zp, xv, yv, zv, p):
+
+    p = int(p)
+    rad = p * p
+    if (int(opt) == 1) :
+        print ("Sphere of radius %d" % p)
+        c = (int(xp)*int(xp))+(int(yp)*int(yp))+(int(zp)*int(zp))-rad
+        b = (2*int(xp)*int(xv))+(2*int(yp)*int(yv))+(2*int(zp)*int(zv))
+        a = (int(xv)*int(xv))+(int(yv)*int(yv))+(int(zv)*int(zv))
+        d = (b*b)-(4*a*c)
+    if (int(opt) == 2) :
+        print ("Cylinder of radius %d" % p)
+        c = (int(xp)*int(xp))+(int(yp)*int(yp))-rad
+        b = (2*int(xp)*int(xv))+(2*int(yp)*int(yv))
+        a = (int(xv)*int(xv))+(int(yv)*int(yv))
+        d = (b*b)-(4*a*c)
+    if (int(opt) == 3) :
+        print ("Cone with a %d degree angle" % p)
+        ang = math.tan(int(p))
+        angle = ang * ang
+        c = (int(xp)*int(xp))+(int(yp)*int(yp))-((int(zp)*int(zp))/angle)
+        b = (2*int(xp)*int(xv))+(2*int(yp)*int(yv))-((2*int(zp)*int(zv))/angle)
+        a = (int(xv)*int(xv))+(int(yv)*int(yv))-((int(zv)*int(zv))/angle)
+        d = (b*b)-(4*a*c)
+    if (int(opt) > 3) | (int(opt) < 1) :
+        sys.stderr.write("Your data are incorrect(2)\n")
+        sys.exit(84)
+    print ("Line passing through the point (%d, %d, %d) and parallel to the vector (%d, %d, %d)" % (int(xp), int(yp), int(zp), int(xv), int(yv), int(zv)))
+    if (int(opt) == 1):
+        if (d < 0):
+            print ("No intersection point.")
+        if (d == 0):
+            print ("1 intersection point:")
+            x = -b / (2 * a)
+            x1 = x * int(xv) + int(xp)
+            y1 = x * int(yv) + int(yp)
+            z1 = x * int(zv) + int(zp)
+            print ("(%.3f, %.3f, %.3f)" % (x1, y1, z1))
+        if (d > 0):
+            print ("2 intersection points:")           
+            x = (-b -(math.sqrt(d)))/(2*a)
+            y = (-b +(math.sqrt(d)))/(2*a)
+            x1 = x * int(xv) + int(xp)
+            x2 = y * int(xv) + int(xp)
+            y1 = x * int(yv) + int(yp)
+            y2 = y * int(yv) + int(yp)
+            z1 = x * int(zv) + int(zp)
+            z2 = y * int(zv) + int(zp)
+            print ("(%.3f, %.3f, %.3f)" % (x2, y2, z2))
+            print ("(%.3f, %.3f, %.3f)" % (x1, y1, z1))
+    if (int(opt) == 2):
+        if (d < 0):
+            print ("No intersection point.")
+        if (d == 0):
+            if (a == 0) :
+                x = 0
+            else :
+                x = -b / (2 * a)
+            print ("1 intersection point:")
+            x1 = x * int(xv) + int(xp)
+            y1 = x * int(yv) + int(yp)
+            z1 = x * int(zv) + int(zp)
+            print ("(%.3f, %.3f, %.3f)" % (x1, y1, z1))
+        if (d > 0):
+            print ("2 intersection points:")
+            x = (-b -(math.sqrt(d)))/(2*a)
+            y = (-b +(math.sqrt(d)))/(2*a)
+            x1 = x * int(xv) + int(xp)
+            x2 = y * int(xv) + int(xp)
+            y1 = x * int(yv) + int(yp)
+            y2 = y * int(yv) + int(yp)
+            z1 = x * int(zv) + int(zp)
+            z2 = y * int(zv) + int(zp)
+            print ("(%.3f, %.3f, %.3f)" % (x2, y2, z2))
+            print ("(%.3f, %.3f, %.3f)" % (x1, y1, z1))
+    if (int(opt) == 3):
+        if (d < 0):
+            print ("No intersection point.")
+        if (d == 0):
+            print ("1 intersection point:")
+            x = -b / (2 * a)
+            x1 = x * int(xv) + int(xp)
+            y1 = x * int(yv) + int(yp)
+            z1 = x * int(zv) + int(zp)
+            print ("(%.3f, %.3f, %.3f)" % (x1, y1, z1))
+        if (d > 0):
+            print ("2 intersection points:")
+            x = (-b -(math.sqrt(d)))/(2*a)
+            y = (-b +(math.sqrt(d)))/(2*a)
+            x1 = x * int(xv) + int(xp)
+            x2 = y * int(xv) + int(xp)
+            y1 = x * int(yv) + int(yp)
+            y2 = y * int(yv) + int(yp)
+            z1 = x * int(zv) + int(zp)
+            z2 = y * int(zv) + int(zp)
+            print ("(%.3f, %.3f, %.3f)" % (x2, y2, z2))
+            print ("(%.3f, %.3f, %.3f)" % (x1, y1, z1))
+        
+def main():
+    try:
+        if len(sys.argv) == 2:
+            if sys.argv[1] == "-h":
+                my_print_intro()
+                return (0)
+        if len(sys.argv) != 9:
+            sys.stderr.write("Your data are incorrect(1)\n")
+            sys.exit(84)    
+        if int(sys.argv[8]) < 0:
+            sys.stderr.write("Your data are incorrect\n")
+            sys.exit(84)
+        if (sys.argv[8]):
+            intersection(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8])
+            return (0)
+        else :
+            sys.stderr.write("Your data are incorrect\n")
+            sys.exit(84)
+    except ValueError:
+        sys.stderr.write("Your data are incorrect\n")
+        sys.exit(84)
+
+
+if __name__ == '__main__':
+    main()
